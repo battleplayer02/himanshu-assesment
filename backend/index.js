@@ -24,7 +24,16 @@ app.get("/", (req, res) => {
 });
 
 //auth
-app.post("/add", addUser,);
+app.post("/add", addUser, (req, res, next) => {
+    if (req.body.username === '' || req.body.username == undefined) {
+        res.status(400).json({ success: "0", error: "Username connot be null" })
+    } else if (req.body.password.length < 6) {
+        res.status(400).json({ success: "0", error: "Password must have more than 6 characters." })
+    }
+    else {
+        next();
+    }
+});
 app.post("/signin", findUser);
 
 //data
